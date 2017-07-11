@@ -1,0 +1,471 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Github",
+		"_postman_id": "c74a881e-0d32-c2df-7685-dff46d464011",
+		"description": "\r\n    Getting public Gists returns 30 Gists (you can get more via pagination, but you just need to get the first 30 and confirm that there are 30)\r\n    Confirm that the user `wolfordj` has at least one public Gist\r\n    Confirm that when you create a Gist the number of Gists associated to your account increases by 1\r\n    Confirm that the contents of the Gist you created match the contents you sent\r\n    Confirm that you are able to edit the contents of a Gist (this will require editing it and proving the edits worked)\r\n    Confirm that you can add a star to a Gist\r\n    Confirm that your list of Starred gists is correct\r\n    Confirm you can remove a star from a Gist\r\n    Confirm you can delete a Gist\r\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Gists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"/* Miles A. Curry",
+							" * CS 496 - Assignment 2 - REST API Usage",
+							" *",
+							" */",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"for(i = 0; i < jsonData.length; i++){",
+							"    tests[\"Loop Tests\"] = jsonData[i].hasOwnProperty(\"url\") === true; ",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://api.github.com/gists",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "WolfrdJ Gist Count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"// 2. Confirm that the user `wolfordj` has at least one public Gist",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Wolfordj > 1 Gists\"] = jsonData.length >= 1;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://api.github.com/users/wolfordj/gists",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get MiCurry Gist Count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Get MiCurry Gist Count\"] = responseCode.code === 200;",
+							"var MiCurryGists = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"MiCurry Count\", MiCurryGists.length);",
+							"console.log(postman.getGlobalVariable(\"MiCurry Count\"));",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://api.github.com/users/MiCurry/gists",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create Gist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"// 3. Confirm that when you create a Gist the number of Gists associated to your account increases by 1",
+							"tests[\"Successful Gist Creation POST request\"] = responseCode.code === 201 || responseCode.code === 202;",
+							"",
+							"var gistLink = postman.getResponseHeader(\"location\");",
+							"postman.setGlobalVariable(\"gist url\", gistLink);",
+							"",
+							"console.log(postman.getGlobalVariable(\"gist url\"));",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://api.github.com/gists",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"description\": \"New Gists created for CS 496\",\r\n  \"public\": true,\r\n  \"files\": {\r\n    \"file1.txt\": {\r\n      \"content\": \"Hello World!\"\r\n    }\r\n  }\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get MiCurry Gist Count  Plus 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"var MiCurryGists = JSON.parse(responseBody);",
+							"",
+							"var upCount = MiCurryGists.length;",
+							"var before = parseInt(postman.getGlobalVariable(\"MiCurry Count\"), 10)",
+							"tests[\"Updated MiCurry Gist Count\"] = upCount === (before + 1)",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://api.github.com/users/MiCurry/gists",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Check Gist Content",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Test Gist Content\"] = responseBody.has(\"Hello World!\");",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{gist url}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update Gist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200 - Gist Updated\"] = responseCode.code === 200;",
+							"tests[\"Test Gist Content\"] = responseBody.has(\"Hello World, we come in peace!\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{gist url}}",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"files\": {\r\n    \"file1.txt\": {\r\n      \"content\": \"Hello World, we come in peace!\"\r\n    }\r\n  }\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Star Gist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 204 - Gist Stared\"] = responseCode.code === 204;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{gist url}}/star",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Star Gist copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 204 - Gist is Stared\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{gist url}}/star",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Check Starred List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Gist in starred list\"] = responseBody.has(postman.getGlobalVariable(\"gist url\"));"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://api.github.com/gists/starred",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Gist Star",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 204 - Gist Stared\"] = responseCode.code === 204;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{gist url}}/star",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Gist Star Check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404 - Gist is not starred\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{gist url}}/star",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Gist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 204 - Gist Deleted Succesfully\"] = responseCode.code === 204;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{gist url}}",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Deleted Gist Check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404 - Gist Does not exist\"] = responseCode.code === 404;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{gist url}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
