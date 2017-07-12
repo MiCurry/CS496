@@ -53,16 +53,30 @@ arrival_date - String indicating the date the boat arrived in the slip,
 """
 class Slip(ndb.Model):
     number = ndb.IntegerProperty(required=True)
-    arrivial_date = ndb.StringProperty(required=True)
+    arrivial_date = ndb.StringProperty()
     current_boat = ndb.StructuredProperty(Boat)
 
 class SlipHandler(webapp2.RequestHandler):
-    def get(self):
-        pass
+    def get(self, id=None):
+        if id:
+            slip = ndb.Key(urlsafe=id).get()
+            s_d = slip.to_dict()
+            s_d['self'] = "/slip/" + id
+            self.response.write(json.dumps(s_d))
+        else:
+            slips = Slip.query()
+            for slip in slips:
+                    self.response.out.write(json.dumps(slip.to_dict()))
 
     def post(self):
         request = json.loads(self.request.body)
-        self.response.write(json.dumps(request))
+        slip = Slip(number=request['number'])
+        slip.arrivial_date = "NULL"
+        slip.current_boat = None
+        slip.put()
+        resp = slip.to_dict()
+        resp['self'] = '/slip/' + slip.key.urlsafe()
+        self.response.write(json.dumps(resp))
 
 class HelloWebapp2(webapp2.RequestHandler):
     def get(self):
@@ -75,7 +89,7 @@ webapp2.WSGIApplication.allowed_methods = new_allowed_methods
 app = webapp2.WSGIApplication([
     ('/', HelloWebapp2),
     ('/boat', BoatHandler),
-    ('/boat/(.*)', BoatHandler,
-
-    )
+    ('/boat/(.*)', BoatHandler),
+    ('/slip/', SlipHandler),
+    ('/slip/(.*)', SlipHandler)
 ], debug=True)
