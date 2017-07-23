@@ -1,0 +1,16 @@
+{
+  "web": {
+    "client_id": "131252496690-oq1f5n3762l9l3n9qvi11qf40f0cm7qj.apps.googleusercontent.com",
+    "project_id": "oath-auth",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://accounts.google.com/o/oauth2/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "cV79ESWCh3rypipVj3l7RX8K",
+    "redirect_uris": [
+      "https://oath-auth.appspot.com/oath-redir"
+    ],
+    "javascript_origins": [
+      "https://oath-auth.appspot.com"
+    ]
+  }
+}
