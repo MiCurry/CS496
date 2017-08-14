@@ -1,0 +1,766 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Marina",
+		"_postman_id": "02a81e76-09e6-f87f-2316-2f93dd3f4471",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1 Starting",
+			"description": "",
+			"item": [
+				{
+					"name": "Create Boat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"postman.setGlobalVariable(\"boat1-ID\", data['self']);",
+									"tests[\"Boat length\"] = responseBody.has(25);",
+									"tests[\"Boat name\"] = responseBody.has(\"Water Slayer\");",
+									"tests[\"Boat type\"] = responseBody.has(\"Sail Boat\");",
+									"",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/boats",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"Water Slayer\", \"type\":\"Sail Boat\", \"length\":25}"
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Another Boat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"postman.setGlobalVariable(\"boat2-ID\", data['self']);",
+									"tests[\"Boat length\"] = responseBody.has(32);",
+									"tests[\"Boat name\"] = responseBody.has(\"HazelNut\");",
+									"tests[\"Boat Type\"] = responseBody.has(\"Tug Boat\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/boats",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"HazelNut\", \"type\":\"Tug Boat\", \"length\":32}"
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Boats",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Boat 1 length\"] = responseBody.has(25);",
+									"tests[\"Boat 1 name\"] = responseBody.has(\"Water Slayer\");",
+									"tests[\"Boat 1 type\"] = responseBody.has(\"Sail Boat\");",
+									"",
+									"tests[\"Boat 2 length\"] = responseBody.has(32);",
+									"tests[\"Boat 2 name\"] = responseBody.has(\"HazelNut\");",
+									"tests[\"Boat 2 Type\"] = responseBody.has(\"Tug Boat\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/boats",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET Boat by ID",
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/{{boat1-ID}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"Water Slayer\", \"type\":\"Sail Boat\", \"length\":25}"
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Slip 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"postman.setGlobalVariable(\"slipID\", data['self']);",
+									"tests[\"slip number\"] = responseBody.has(1);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/slips",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"number\":1}"
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Slip 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"postman.setGlobalVariable(\"slip2ID\", data['self']);",
+									"tests[\"slip number\"] = responseBody.has(2);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/slips",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"number\":2}"
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Slips",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"slip 1 number\"] = responseBody.has(1);",
+									"tests[\"slip 2 number\"] = responseBody.has(2);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/slips",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Slip By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"slip number\"] = responseBody.has(1);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/{{slipID}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"Water Slayer\", \"type\":\"Sail Boat\", \"length\":25}"
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2 Docking",
+			"description": "",
+			"item": [
+				{
+					"name": "See if boat listed at slip1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Boat id not in slip\"] = !responseBody.has(postman.getGlobalVariable(\"boat1-ID\")) ;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/{{slipID}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"Water Slayer\", \"type\":\"Sail Boat\", \"length\":25}"
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				},
+				{
+					"name": "Dock boat 1 to slip 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 201\"] = responseCode.code === 201;",
+									"tests[\"Boat id in slip\"] = responseBody.has(postman.getGlobalVariable(\"boat1-ID\"));",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/{{slipID}}/dock{{boat1-ID}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				},
+				{
+					"name": "Try To Dock another Boat to slip1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 403\"] = responseCode.code === 403;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/{{slipID}}/dock{{boat1-ID}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				},
+				{
+					"name": "See if boat 1 is not at sea",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Boat Marked 'At Sea' as false\"] = responseBody.has(\"false\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/{{boat1-ID}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"Water Slayer\", \"type\":\"Sail Boat\", \"length\":25}"
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				},
+				{
+					"name": "Mark a boat as at sea",
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/{{boat1-ID}}/atsea",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				},
+				{
+					"name": "See if boat 1 is at sea",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Boat Marked 'At Sea' as true\"] = responseBody.has(\"true\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/{{boat1-ID}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"Water Slayer\", \"type\":\"Sail Boat\", \"length\":25}"
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				},
+				{
+					"name": "See if boat is notlisted at slip1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Boat id not in slip\"] = !responseBody.has(postman.getGlobalVariable(\"boat1-ID\")) ;",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/{{slipID}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"Water Slayer\", \"type\":\"Sail Boat\", \"length\":25}"
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				},
+				{
+					"name": "Dock another boat 2 to slip1",
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/{{slipID}}/dock{{boat2-ID}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				},
+				{
+					"name": "See if boat 2 is not at sea",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Boat Marked 'At Sea'\"] = responseBody.has(\"false\");",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/{{boat2-ID}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"Water Slayer\", \"type\":\"Sail Boat\", \"length\":25}"
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3 Ending",
+			"description": "",
+			"item": [
+				{
+					"name": "Update Boat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Boat length\"] = responseBody.has(27);",
+									"tests[\"Boat name\"] = responseBody.has(\"Water Killer\");",
+									"tests[\"Boat type\"] = responseBody.has(\"Sail Boat\");",
+									"",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/{{boat1-ID}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"Water Killer\", \"length\":27}"
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Slip",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Slip Number\"] = responseBody.has(5);",
+									"",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/{{slipID}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"number\":5}"
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Slip",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 204\"] = responseCode.code === 204;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/{{slipID}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Boat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 204\"] = responseCode.code === 204;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://ornate-artifact-172218.appspot.com/{{boat1-ID}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 54761c76c32c4436d8607d1ba758b09d5970f41c",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Create a new Boat"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

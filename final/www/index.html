@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <head>
+    <!-- [START css] -->
+    <link type="text/css" rel="stylesheet" href="/www/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="/www/css/bootstrap-grid.css">
+    <!-- [END css] -->
+  </head>
+  <body>
+    <div class="container"
+      <div class="navbar navbar-inverse navbar-fixed-top">
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <h1>Saved Tweets</h1>
+            <!-- [START List of Tweets] -->
+              <p>{{ body }}</p>
+            <!-- [END List of Tweets] -->
+        </div>
+        <div class="col">
+            <h1>Log-In</h1>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+{% endautoescape %}

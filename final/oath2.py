@@ -87,24 +87,3 @@ class OathRedirHandler(webapp2.RequestHandler):
             self.response.write("<p>")
             self.response.write(r)
             self.response.write("</p>")
-
-class MainPage(webapp2.RequestHandler):
-    def get(self):
-        self.response.write("Hello world!")
-        self.response.write("<p>")
-        self.response.write("<form action="+OATH_URL+">"+\
-                            "<input type='submit' value='Sign-in with google plus to view OATH demo for CS 496 at Oregon State University'/>"+\
-                            "</form>")
-
-        self.response.write("</p>")
-
-
-allowed_methods = webapp2.WSGIApplication.allowed_methods
-new_allowed_methods = allowed_methods.union(('PATCH',))
-webapp2.WSGIApplication.allowed_methods = new_allowed_methods
-
-app = webapp2.WSGIApplication([
-    webapp2.Route(r'/', handler=MainPage),
-    webapp2.Route(r'/oath', handler=OathHandler),
-    webapp2.Route(r'/oathredir', handler=OathRedirHandler),
-], debug=True)

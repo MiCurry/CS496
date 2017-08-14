@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">HW6</string>
+    <string name="latitude">Latitude:</string>
+    <string name="longitude">Longitude:</string>
+    <string name="latShort">Lat</string>
+    <string name="lonShort">Lon</string>
+    <string name="osuLat">44.5</string>
+    <string name="osuLon">-123.2</string>
+    <string name="savedLocs">Saved Locations</string>
+    <string name="None">None</string>
+    <string name="Submit">Submit</string>
+</resources>
