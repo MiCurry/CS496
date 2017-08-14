@@ -4,7 +4,6 @@ import json
 # Convert URLS to be safe to paste into the URL redirect
 from urllib import quote_plus as url_conv
 
-from google.appengine.ext import ndb
 from google.appengine.api import urlfetch
 from google.appengine.api import memcache
 import webapp2
@@ -13,10 +12,10 @@ from shared import state_generator
 
 EXCHANGE_URL = "https://www.googleapis.com/oauth2/v4/token"
 GOOGLE_PLUS_SCOPE_URL = "https://www.googleapis.com/auth/userinfo.profile"
-OATH_REDIRECT_URL = "http://oath-auth.appspot.com/oathredir"
-OATH_URL = "http://oath-auth.appspot.com/oath"
+OATH_REDIRECT_URL = "http://tweet-saver.appspot.com/oathredir"
+OATH_URL = "http://tweet-saver.appspot.com/oath"
 GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth?scope="
-WELCOME_REDIRECT_URL = "http://oath-auth.appspot.com/welcome"
+WELCOME_REDIRECT_URL = "http://tweet-saver.appspot.com/"
 GIF_LINK = "http://i.imgur.com/GVKjxsP.gif"
 
 client = json.load(open('client_id.json'))
