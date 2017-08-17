@@ -5,23 +5,34 @@
     <!-- [START css] -->
     <link type="text/css" rel="stylesheet" href="/www/css/bootstrap.css">
     <link type="text/css" rel="stylesheet" href="/www/css/bootstrap-grid.css">
+    <script src="/www/js/bootstrap.js"></script>
     <!-- [END css] -->
   </head>
-  <body>
-    <div class="container"
-      <div class="navbar navbar-inverse navbar-fixed-top">
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <img alt="Tweet Saver" src="...">
+          <a href="index.html"><button type="button" class="btn btn-default navbar-btn" href="index.html">Home</button></a>
+          <a href="profile.html"><button type="button" class="btn btn-default navbar-btn" href="home">Profile</button></a>
+          <a href="oath"><button type="button" class="btn btn-default navbar-btn" href="oath">Log-In</button></a>
+        </a>
       </div>
     </div>
+  </nav>
 
+
+  <body>
     <div class="container-fluid">
       <div class="row">
-        <div class="col">
+        <div class="col-8">
           <h1>Saved Tweets</h1>
             <!-- [START List of Tweets] -->
               <p>{{ body }}</p>
             <!-- [END List of Tweets] -->
         </div>
-        <div class="col">
+        <div class="col-4">
             <h1>Log-In</h1>
         </div>
       </div>

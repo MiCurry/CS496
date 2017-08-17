@@ -1,3 +1,4 @@
+import os
 import re
 import urllib
 import json
@@ -6,17 +7,25 @@ from urllib import quote_plus as url_conv
 
 from google.appengine.api import urlfetch
 from google.appengine.api import memcache
+
+import jinja2
 import webapp2
 
 from shared import state_generator
+
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True)
 
 EXCHANGE_URL = "https://www.googleapis.com/oauth2/v4/token"
 GOOGLE_PLUS_SCOPE_URL = "https://www.googleapis.com/auth/userinfo.profile"
 OATH_REDIRECT_URL = "http://tweet-saver.appspot.com/oathredir"
 OATH_URL = "http://tweet-saver.appspot.com/oath"
 GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth?scope="
-WELCOME_REDIRECT_URL = "http://tweet-saver.appspot.com/"
+PROFILE_REDIRECT_URL = "http://tweet-saver.appspot.com/profile"
 GIF_LINK = "http://i.imgur.com/GVKjxsP.gif"
+TOKEN_INFO = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token="
 
 client = json.load(open('client_id.json'))
 client_id = client['web']['client_id']
@@ -26,6 +35,11 @@ ACCESS_TOKEN = None
 
 my_state = state_generator()
 memcache.add(key='state', value=my_state, time=3600)
+
+def checkToken(token):
+    url = TOKEN_INFO + token
+    result = urlfetch.fetch(url=url)
+    return result
 
 class OathHandler(webapp2.RequestHandler):
     def get(self):
@@ -74,15 +88,13 @@ class OathRedirHandler(webapp2.RequestHandler):
         familyName = r['name']['familyName']
         user_google_plus_url = r['url']
 
-        resp = []
+        result = checkToken(ACCESS_TOKEN)
+        result2 = checkToken("BAAHH")
 
-        resp.append("state: {}".format(state))
-        resp.append("First Name: {}".format(givenName))
-        resp.append("Last Name: {}".format(familyName))
-        resp.append("Your Google+ URL: {}".format(user_google_plus_url))
-        resp.append("And a GIF for you: {}".format(GIF_LINK))
+        template_values = {
+            'first': str(givenName),
+            'token': str(ACCESS_TOKEN),
+        }
 
-        for r in resp:
-            self.response.write("<p>")
-            self.response.write(r)
-            self.response.write("</p>")
+        template = JINJA_ENVIRONMENT.get_template("/www/profile.html")
+        self.response.write(template.render(template_values))

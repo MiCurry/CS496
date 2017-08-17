@@ -46,6 +46,7 @@ Use Cases
 Tests
 =====
   1. Creating a User Profile
+    - Updating a user profile
   2. Searching a tweets for specific words and from certain dates
   3. Saving a tweet
   4. Viewing saved Tweets
