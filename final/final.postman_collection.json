@@ -1,0 +1,421 @@
+{
+	"variables": [],
+	"info": {
+		"name": "final",
+		"_postman_id": "ed4d3af6-92e3-1c66-ef6b-648abbc04aa8",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Start Tests",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"/* Past access token below! */",
+							"postman.setGlobalVariable(\"access_token\", \"\");",
+							"",
+							"/* Write Your Tweets Below! */",
+							"postman.setGlobalVariable(\"tweet_1\", \"\");",
+							"postman.setGlobalVariable(\"tweet_2\", \"\");",
+							"postman.setGlobalVariable(\"tweet_3\", \"\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://tweet-saver.appspot.com/",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Has Username:\"] = responseBody.has(\"Sardonic\");",
+							"tests[\"Has Favorite Color\"] = responseBody.has(\"Blue\");",
+							"tests[\"Has Location\"] = responseBody.has(\"Oregon\");",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"userID\", data['self']);",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://tweet-saver.appspot.com/profile.html",
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{access_token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userName\":\"Sardonic\", \"color\":\"Blue\", \"location\":\"Oregon\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create User with a bad Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 401\"] = responseCode.code === 401;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://tweet-saver.appspot.com/profile.html",
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "asf",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userName\":\"Sardonic\", \"color\":\"Blue\", \"location\":\"Oregon\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Has Username:\"] = responseBody.has(\"Sardonic\");",
+							"tests[\"Has Favorite Color\"] = responseBody.has(\"Blue\");",
+							"tests[\"Has Location\"] = responseBody.has(\"Oregon\");",
+							"tests[\"Has ID\"] = responseBody.has(\"116951495482589770074\");",
+							"tests[\"Has Name\"] = responseBody.has(\"Miles Atkinson\");",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://tweet-saver.appspot.com/profile",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"color\":\"Red\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Has Username:\"] = responseBody.has(\"Sardonic\");",
+							"tests[\"Has Favorite Color\"] = responseBody.has(\"Blue\");",
+							"tests[\"Has Location\"] = responseBody.has(\"Oregon\");",
+							"tests[\"Has ID\"] = responseBody.has(\"116951495482589770074\");",
+							"tests[\"Has Name\"] = responseBody.has(\"Miles Atkinson\");",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://tweet-saver.appspot.com/profile/{{userID}}",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"color\":\"Red\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Favorite Color Updated to Red\"] = responseBody.has(\"Red\");",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://tweet-saver.appspot.com/profile/{{userID}}",
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"color\":\"Red\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 204\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://tweet-saver.appspot.com/profile/{{userID}}",
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"color\":\"Red\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Try To Get Deleted User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://tweet-saver.appspot.com/profile/{{userID}}",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"color\":\"Red\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create Tweet 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"tweetID\", data['tweet_id']);",
+							"",
+							"tests[\"Has Tweet Body:\"] = responseBody.has(postman.getGlobalVariable(\"tweet_1\"));",
+							"tests[\"Has UserName:\"] = responseBody.has(\"Sardonic\");",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://tweet-saver.appspot.com/profile/{{userID}}/tweet/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{access_token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"body\": \"{{tweet_1}}\" }\n\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create Tweet 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Has Tweet Body:\"] = responseBody.has(postman.getGlobalVariable(\"tweet_2\"));",
+							"tests[\"Has UserName:\"] = responseBody.has(\"Sardonic\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://tweet-saver.appspot.com/profile/{{userID}}/tweet/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{access_token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n\t\"body\": \"{{tweet_2}}\"\n}\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create Tweet 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Has Tweet Body:\"] = responseBody.has(postman.getGlobalVariable(\"tweet_3\"));",
+							"tests[\"Has UserName:\"] = responseBody.has(\"Sardonic\");",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://tweet-saver.appspot.com/profile/{{userID}}/tweet/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{access_token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"body\": \"{{tweet_3}}\" }\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create Tweet with bad access token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 401\"] = responseCode.code === 401;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://tweet-saver.appspot.com/profile/{{userID}}/tweet/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "nah!",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"body\": \"This shouldn't post!\" }\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Single Tweet",
+			"request": {
+				"url": "http://tweet-saver.appspot.com/tweet/{{tweetID}}/",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"color\":\"Red\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Tweet From User",
+			"request": {
+				"url": "http://tweet-saver.appspot.com/profile/{{userID}}/tweets/",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"color\":\"Red\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Tweets",
+			"request": {
+				"url": "http://tweet-saver.appspot.com/tweet",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"color\":\"Red\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
