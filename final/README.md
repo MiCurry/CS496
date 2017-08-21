@@ -1,70 +1,123 @@
+Tweeter
+========
 
-# ToDo:
+http://tweet-saver.appspot.com/index.html
 
-  1. Use Cases
-  2. Tests
+The application I decided to write for my final project is a simple web
+application that allows visitors to sign in with their Google+ accounts
+and then make Tweets from a Twitter account(
+[TwetTweetTweeet](https://twitter.com/TwetTweetTweeet/))! Essentially its
+everyone can pretend to Tweet from a single twitter account without
+having to log in!
 
-For this option you will only build a cloud back-end on a live publicly accessible cloud provider.
+Users sign in with their Google+ account and can update their profile, user
+name, location, favorite color, and then can create Tweets using that profile.
+The application uses the twitter API to post status updates (tweets)
+to the account above. When a user posts a tweet using the application, that
+tweet will be associated to them. Users can update their account, but only
+if they have the access code present, furthermore users can only make tweets
+if they have an access code.
 
-    You need to implement a REST API
-    User accounts are supported (ie. there is data tied to specific users that only they can see or modify) AND the account system uses 3rd party provider, there should be able to be an arbitrary number of accounts. Accounts *must* have access to some amount of account specific information that only they can either access or modify.
-    There should be at least 2 entities and they should have at least 4 properties each
-    You must also implement one of the following
-        There should be at least one relationship between entities
-        It needs to meaningfully use a 3rd party API for something other than authentication (for example connecting to a stock market API to get stock data or a weather service to pull weather data)
+I'm looking forward to seeing the tweets that you all make when you grade this,
+so be sure to make them fun! :)
 
-Deliverables
+## Using the Site
 
-    You should include a full set of Postman tests that show adding, deleting, updating and removing entities (every applicable verb should be used)
-        This should demonstrate adding, viewing and removing things in a relationship (if applicable)
-        You will need to use some more advanced features of postman to do this because you will need to pull variable names and save them to variables
-    You should include a PDF
-        With all the routes used for your API including which verbs work for them
-        A description of the 3rd party service you used
-    You should include a video of the tests being run in case we are unable to run or interpret the results.
-    You should include a zip of your source code
+The application is currently just a RESTFul API, so its core functionality
+is only accessible via Postman or another similar application.
 
-Use Cases
-=========
+To use it however you must visit to the web page provided above with a  browser
+to sign in using the Google+ Oauth API. Once you have done that you need to copy
+and paste your access token into post man tests in the *test* section of the
+**Start Test** test. You will also need to specify unique tweets that will be
+used for the test suite that you run. After you do that, run the test suite.
 
-  R1) User should be able to login into their account via google+ login.
+These values will be in the same area as where the access token is pasted. Each
+tweet will need to be unique, because Twitter will through a fit if you try
+and post the two tweets with the same content!
 
-  R2) Visitors will be prompted to login via the google account on the home page.
+So here is how to run the tests is a succinct format:
 
-  R3) Once logged in users will be able to choose a user name which will be
-  associated with tweets they save.
+1. Get your access token: Navigate to [http://tweet-saver.appspot.com/index.html](http://tweet-saver.appspot.com/index.html)
+  and click the **Log-In** in the nav bar and follow the google plus prompts to
+  allow access to your google+ account. Copy your access token, the wibsite
+  will display it for you after you've signed in, and paste it into the Postman
+  test section of the **Start Test** test.
+2. Create Tweets: In the same section you provided your access token create
+  three different and unique tweets that will be tweeted by the account
+3. Run the tests! And see your tweets that you tweeted on the     
+  [account](https://twitter.com/TwetTweetTweeet/)
+4. Boom Shakalak!
 
-  R4) Users should be able to search and find tweets for specific words from a
-  specified date range.
+# API Reference
 
-  R5) Users should be able to save specific tweets that they found to their user
-  page.
+## Profile
 
-  R6) Users and non-users can also see saved tweets by other users on the main page
-  as well as on individual user pages.
-
-Tests
-=====
-  1. Creating a User Profile
-    - Updating a user profile
-  2. Searching a tweets for specific words and from certain dates
-  3. Saving a tweet
-  4. Viewing saved Tweets
-    - Home page
-    - User page
+### Create a Profile
+```
+POST /profile
+```
+With the following attributes in the body of the request:
+Name        | Type        | Description
+------------|:-----------:|--------------:
+userName (Required) | String      | Your desired user name
+color       | String      | Your favorite color
+loc         | String      | Your location
 
 
-Models
-======
-  Tweets
-    - author
-    - body - tweet body
-    - date tweeted
-    - date saved
-    - user - user who saved the tweet
+And the authorization token in the header of the request:
+Name    | Type    | Description
+------------|:-----------:|--------------:
+token | String | A valid authorization token provided by website. See above.
 
-  Users
-    - User name
-    - Favorite Color
-    - Location
-    - Saved Tweets
+
+### List all Profiles
+```
+GET /profile
+```
+
+### List a single Profile
+```
+GET /profile/:id/
+```
+
+### Modify a Profile
+```
+PATCH /profile/:id/
+```
+
+Name              | Type    | Description
+------------------|:-------:|--------------:
+Color (optional)   | String  | Updated favorite color
+loc (optional)   | String  | Updated location
+
+### Delete a Profile
+```
+DELETE /profile/:id/
+```
+
+## Tweets
+
+### Post a Tweet
+```
+POST /tweet/:user_id/
+```
+
+Name        | Type        | Description
+------------|:-----------:|--------------:
+Body | String | Body of the tweet to be tweeted!
+
+### List all Tweets
+```
+GET /tweet
+```
+
+### List a single Tweet
+```
+GET /tweet/:tweet_id
+```
+
+### List the Tweets by a specific user
+```
+GET /profile/:user_id/tweets/
+```

@@ -12,7 +12,7 @@ import jinja2
 import webapp2
 
 from oath2 import OathHandler, OathRedirHandler, checkToken
-from twitter import TweetHandler
+from tweet import Tweet, TweetHandler
 
 GOOGLE_USER_INFO_REQ_URI = "https://www.googleapis.com/plus/v1/people/me"
 
@@ -27,14 +27,7 @@ class Profile(ndb.Model):
     firstName = ndb.StringProperty(required=True)
     favColor = ndb.StringProperty()
     location = ndb.StringProperty()
-    tweets = ndb.KeyProperty(repeated=True)
-
-class Tweet(ndb.Model):
-    tweet_author = ndb.StringProperty(required=True) # Twitter Person who tweeter the tweet
-    tweet_saver = ndb.KeyProperty(required=True) # User who saved the tweet
-    body = ndb.StringProperty(required=True)
-    date_tweeted = ndb.StringProperty(required=True)
-    date_saved = ndb.StringProperty(required=True)
+    tweets = ndb.StructuredProperty(Tweet, repeated=True)
 
 class ProfileHandler(webapp2.RequestHandler):
     def get(self, user_id=None):
@@ -75,6 +68,7 @@ class ProfileHandler(webapp2.RequestHandler):
                            method = urlfetch.GET)
 
         r = json.loads(r.content)
+
         if 'error' in r:
             self.response.status_int = 403
             self.response.status_message="Bad Access Token!"
@@ -144,7 +138,6 @@ class MainPage(webapp2.RequestHandler):
         self.response.write(template.render(template_values))
         self.response.status_int = 200
 
-
 allowed_methods = webapp2.WSGIApplication.allowed_methods
 new_allowed_methods = allowed_methods.union(('PATCH',))
 webapp2.WSGIApplication.allowed_methods = new_allowed_methods
@@ -157,5 +150,7 @@ app = webapp2.WSGIApplication([
     webapp2.Route(r'/profile/<user_id>', handler=ProfileHandler),
     webapp2.Route(r'/oath', handler=OathHandler),
     webapp2.Route(r'/oathredir', handler=OathRedirHandler),
-    webapp2.Route(r'/tweet', handler=TweetHandler)
+    webapp2.Route(r'/tweet', handler=TweetHandler),
+    webapp2.Route(r'/profile/<user_id>/tweets/', handler=TweetHandler),
+    webapp2.Route(r'/tweet/<tweet_id>/', handler=TweetHandler),
 ], debug=True)
