@@ -37,8 +37,7 @@ tweet will need to be unique, because Twitter will through a fit if you try
 and post the two tweets with the same content!
 
 So here is how to run the tests is a succinct format:
-
-1. Get your access token: Navigate to [http://tweet-saver.appspot.com/index.html](http://tweet-saver.appspot.com/index.html)
+gt://tweet-saver.appspot.com/index.html)
   and click the **Log-In** in the nav bar and follow the google plus prompts to
   allow access to your google+ account. Copy your access token, the wibsite
   will display it for you after you've signed in, and paste it into the Postman

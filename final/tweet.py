@@ -69,12 +69,29 @@ class TweetHandler(webapp2.RequestHandler):
     def post(self, user_id=None):
         request = json.loads(self.request.body)
         header = self.request.headers
+
+        """ Check Oauth Token """
+        token = header['token']
+
+        headers = {'Authorization': 'Bearer {}'.format(token)}
+        req_uri = 'https://www.googleapis.com/plus/v1/people/me'
+        r = urlfetch.fetch(url = req_uri,
+                           headers = headers,
+                           method = urlfetch.GET)
+
+        r = json.loads(r.content)
+        if 'error' in r:
+            self.response.status_int = 401
+            self.response.status_message="Bad Access Token!"
+            self.response.write("BAD ACCESS TOKEN")
+            return
+
+        """ Token Good! Continue! """
         body = request['body']
         if not body:
             self.response.status_int = 400
             self.response.out.write("")
             return
-
         if not user_id:
             self.response.status_int = 400
             self.response.out.write("")
@@ -83,7 +100,12 @@ class TweetHandler(webapp2.RequestHandler):
             user = ndb.Key(urlsafe=user_id).get()
 
         api = tweepy_init() # Init tweepy
-        status = api.update_status(body) # Update Status (AKA Tweet)
+        try:
+            status = api.update_status(body) # Update Status (AKA Tweet)
+        except Exception as e:
+            self.response.status_int = 400
+            self.response.out.write("")
+            return
 
         tweet = Tweet(tweet_id=str(status.id),
                         tweet_sender=user.userName,

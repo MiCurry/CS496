@@ -54,7 +54,7 @@ class ProfileHandler(webapp2.RequestHandler):
         self.response.out.write(json.dumps(resp))
         return
 
-    def post(self):
+    def post(self, tweet_id=None):
         self.response.content_type='application/json'
         request = json.loads(self.request.body)
         header = self.request.headers
@@ -70,7 +70,7 @@ class ProfileHandler(webapp2.RequestHandler):
         r = json.loads(r.content)
 
         if 'error' in r:
-            self.response.status_int = 403
+            self.response.status_int = 401
             self.response.status_message="Bad Access Token!"
             self.response.write("BAD ACCESS TOKEN")
             return
@@ -151,6 +151,6 @@ app = webapp2.WSGIApplication([
     webapp2.Route(r'/oath', handler=OathHandler),
     webapp2.Route(r'/oathredir', handler=OathRedirHandler),
     webapp2.Route(r'/tweet', handler=TweetHandler),
-    webapp2.Route(r'/profile/<user_id>/tweets/', handler=TweetHandler),
+    webapp2.Route(r'/profile/<user_id>/tweet/', handler=TweetHandler),
     webapp2.Route(r'/tweet/<tweet_id>/', handler=TweetHandler),
 ], debug=True)
