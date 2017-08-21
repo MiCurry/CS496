@@ -1,7 +1,7 @@
 Tweeter
 ========
 
-http://tweet-saver.appspot.com/index.html
+http://tweet-saver.appspot.com/index.html | https://twitter.com/TwetTweetTweeet/
 
 The application I decided to write for my final project is a simple web
 application that allows visitors to sign in with their Google+ accounts
