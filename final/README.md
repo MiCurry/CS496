@@ -5,8 +5,8 @@ http://tweet-saver.appspot.com/index.html
 
 The application I decided to write for my final project is a simple web
 application that allows visitors to sign in with their Google+ accounts
-and then make Tweets from a Twitter account(
-[TwetTweetTweeet](https://twitter.com/TwetTweetTweeet/))! Essentially its
+and then make Tweets from a Twitter account
+[TwetTweetTweeet](https://twitter.com/TwetTweetTweeet/)! Essentially its
 everyone can pretend to Tweet from a single twitter account without
 having to log in!
 
@@ -58,6 +58,7 @@ So here is how to run the tests is a succinct format:
 POST /profile
 ```
 With the following attributes in the body of the request:
+
 Name        | Type        | Description
 ------------|:-----------:|--------------:
 userName (Required) | String      | Your desired user name
@@ -66,7 +67,8 @@ loc         | String      | Your location
 
 
 And the authorization token in the header of the request:
-Name    | Type    | Description
+
+Name        | Type        | Description
 ------------|:-----------:|--------------:
 token | String | A valid authorization token provided by website. See above.
 
